@@ -1,6 +1,11 @@
+import subprocess
+
+
 def main():
-    print("Hello World!")
+    """Запуск команды python manage.py runserver"""
+    subprocess.run(['python', 'manage.py', 'runserver'])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
+    print("Сервер запущен")
