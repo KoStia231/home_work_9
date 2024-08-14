@@ -1,8 +1,11 @@
 {% extends 'catalog/base.html' %}
+{% load my_media %}
 {% block content %}
-    <h1>{{ product.name }}</h1>
-    <p>Описание: {{ product.description }}</p>
-    <p>Фото: <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}"> </p>
-    <p>Категория: {{ product.category }}</p>
-    <p>Цена: {{ product.price }}</p>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">{{ product.name }}</h1>
+        <p class="lead">Описание: {{ product.description }}</p>
+        <p class="lead">Фото: <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}"> </p>
+        <p class="lead">Категория: {{ product.category }}</p>
+        <p class="lead">Цена: {{ product.price }}</p>
+    </div>
 {% endblock %}

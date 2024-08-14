@@ -8,23 +8,7 @@
     <div class="row text-center">
         {% for product in product_list %}
 
-            <div class="col-3">
-                <a style="display: block;text-decoration: none;" href="/product/{{ product.pk }}">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">{{ product.price }}</h1>
-                            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                                <li>- {{ product.description|truncatechars:100 }}</li>
-
-                            </ul>
-                            <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            {% include 'catalog/includes/product_card.html' %}
 
         {% endfor %}
     </div>

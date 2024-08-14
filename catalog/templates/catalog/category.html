@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">{{ category.name }}</h1>
+        <p class="lead">Описание: {{ category.description }}</p>
+    </div>
+    <div class="row text-center">
+        {% for product in product_list %}
+            {% if product.category == category %}
+                {% include 'catalog/includes/product_card.html' %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

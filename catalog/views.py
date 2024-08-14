@@ -9,11 +9,13 @@ from catalog.models import Product, Category
 def recording_to_file(file_name, data):
     """Запись в файл data.txt это топ задание"""
     with open(file_name, 'a') as file:
-        file.write(str(data)+'\n')
+        file.write(str(data) + '\n')
 
 
 def index(request):
-    context = {'product_list': Product.objects.all(), 'category_list': Category.objects.all()}
+    context = {'product_list': Product.objects.all(),
+               'category_list': Category.objects.all()
+               }
     return render(request, 'catalog/index.html', context)
 
 
@@ -31,7 +33,16 @@ def contacts(request):
 
 def product_info(request, pk):
     """Контроллер для отдельной страницы с товаром."""
-    context = {'product': Product.objects.get(pk=pk)}
+    context = {'product': Product.objects.get(pk=pk),
+               'category_list': Category.objects.all()
+               }
     return render(request, 'catalog/product.html', context)
 
 
+def category_info(request, pk):
+    """Контроллер для отдельной страницы с категориями."""
+    context = {'category': Category.objects.get(pk=pk),
+               'category_list': Category.objects.all(),
+               'product_list': Product.objects.all()
+               }
+    return render(request, 'catalog/category.html', context)
