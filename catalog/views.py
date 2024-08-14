@@ -18,6 +18,7 @@ def index(request):
 
 
 def contacts(request):
+    context = {'category_list': Category.objects.all()}
     if request.method == 'POST':
         name = request.POST.get('name')
         phone = request.POST.get('phone')
@@ -25,7 +26,7 @@ def contacts(request):
         recording_to_file(file_name="data.txt", data=[name, phone, message])
         # временное решение нужно будет писать потом в базу
 
-    return render(request, 'catalog/contacts.html')
+    return render(request, 'catalog/contacts.html', context)
 
 
 def product_info(request, pk):
