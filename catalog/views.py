@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from catalog.models import Product
+from catalog.models import Product, Category
 
 
 # Create your views here.
@@ -13,7 +13,7 @@ def recording_to_file(file_name, data):
 
 
 def index(request):
-    context = {'product_list': Product.objects.all()}
+    context = {'product_list': Product.objects.all(), 'category_list': Category.objects.all()}
     return render(request, 'catalog/index.html', context)
 
 

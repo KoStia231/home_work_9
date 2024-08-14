@@ -6,11 +6,9 @@
             <div class="col-6 col-md">
                 <h5>Категории</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Рассылки</a></li>
-                    <li><a class="text-muted" href="#">Телеграм боты</a></li>
-                    <li><a class="text-muted" href="#">Полезные утилиты</a></li>
-                    <li><a class="text-muted" href="#">Веб-приложения</a></li>
-                    <li><a class="text-muted" href="#">Микросервисы</a></li>
+                    {% for category in category_list %}
+                    <li><a class="text-muted" href="#">{{ category.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-6 col-md">
