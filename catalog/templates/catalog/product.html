@@ -1,0 +1,10 @@
+
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    <p>Описание: {{ product.description }}</p>
+    <p>Фото: <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}"> </p>
+    <p>Категория: {{ product.category }}</p>
+    <p>Цена: {{ product.price }}</p>
+{% endblock %}

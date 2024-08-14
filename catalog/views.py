@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+from catalog.models import Product
+
+
 # Create your views here.
 
 
@@ -10,7 +13,8 @@ def recording_to_file(file_name, data):
 
 
 def index(request):
-    return render(request, 'catalog/index.html')
+    context = {'product_list': Product.objects.all()}
+    return render(request, 'catalog/index.html', context)
 
 
 def contacts(request):
@@ -19,8 +23,14 @@ def contacts(request):
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         recording_to_file(file_name="data.txt", data=[name, phone, message])
+        # временное решение нужно будет писать потом в базу
 
     return render(request, 'catalog/contacts.html')
 
+
+def product_info(request, pk):
+    """Контроллер для отдельной страницы с товаром."""
+    context = {'product': Product.objects.get(pk=pk)}
+    return render(request, 'catalog/product.html', context)
 
 
