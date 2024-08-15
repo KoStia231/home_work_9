@@ -7,5 +7,6 @@
         <p class="lead">Фото: <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}"> </p>
         <p class="lead">Категория: {{ product.category }}</p>
         <p class="lead">Цена: {{ product.price }}</p>
+        <p class="lead">Создан: {{ product.created_at}}</p>
     </div>
 {% endblock %}
