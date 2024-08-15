@@ -2,3 +2,5 @@
 /.gitignore
 /.venv
 .DS_Store
+data.txt
+db.sqlite3
