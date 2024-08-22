@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.views.generic import ListView, TemplateView, DetailView
 from catalog.models import Product, Category
 
 
@@ -12,37 +12,47 @@ def recording_to_file(file_name, data):
         file.write(str(data) + '\n')
 
 
-def index(request):
-    context = {'product_list': Product.objects.all(),
-               'category_list': Category.objects.all()
-               }
-    return render(request, 'catalog/index.html', context)
+class IndexView(ListView):
+    model = Product
+    template_name = 'catalog/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        return context
 
 
-def contacts(request):
-    context = {'category_list': Category.objects.all()}
-    if request.method == 'POST':
+class ContactsView(TemplateView):
+    template_name = 'catalog/contacts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        return context
+
+    def post(self, request):
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         recording_to_file(file_name="data.txt", data=[name, phone, message])
         # временное решение нужно будет писать потом в базу
-
-    return render(request, 'catalog/contacts.html', context)
-
-
-def product_info(request, pk):
-    """Контроллер для отдельной страницы с товаром."""
-    context = {'product': Product.objects.get(pk=pk),
-               'category_list': Category.objects.all()
-               }
-    return render(request, 'catalog/product.html', context)
+        return render(request, self.template_name)
 
 
-def category_info(request, pk):
-    """Контроллер для отдельной страницы с категориями."""
-    context = {'category': Category.objects.get(pk=pk),
-               'category_list': Category.objects.all(),
-               'product_list': Product.objects.all()
-               }
-    return render(request, 'catalog/category.html', context)
+class ProductView(DetailView):
+    model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        return context
+
+
+class CategoryView(DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        context['product_list'] = Product.objects.all()
+        return context
