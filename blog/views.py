@@ -44,8 +44,6 @@ class BlogCreateView(MyBaseFooter, CreateView):
 
 class BlogUpdateView(MyBaseFooter, UpdateView):
     model = BlogEntry
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
     fields = ('title', 'contents', 'image')
     success_url = reverse_lazy('blog:detail')
 
