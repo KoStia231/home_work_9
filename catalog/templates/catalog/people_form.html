@@ -30,19 +30,22 @@
                     <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="" class="form-floating">
+                    <form method="post" class="form-floating">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="name">Имя</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" required>
+                            <label for="id_name">Имя</label>
+                            <input type="text" name="name" class="form-control" id="id_name" placeholder="Ваше имя"
+                                   required>
                         </div>
                         <div class="mb-3">
-                            <label for="phone">Телефон</label>
-                            <input type="text" name="phone" class="form-control" id="phone" placeholder="Контактный телефон" required>
+                            <label for="id_phone_number">Телефон</label>
+                            <input type="text" name="phone_number" class="form-control" id="id_phone_number"
+                                   placeholder="Контактный телефон" required>
                         </div>
                         <div class="mb-3">
-                            <label for="message">Сообщение</label>
-                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Текст сообщения" required></textarea>
+                            <label for="id_message">Сообщение</label>
+                            <textarea name="message" class="form-control" id="id_message" placeholder="Текст сообщения"
+                                      required></textarea>
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                     </form>

@@ -7,14 +7,14 @@
                 <h5>Категории</h5>
                 <ul class="list-unstyled text-small">
                     {% for category in category_list %}
-                    <li><a class="text-muted" href="/category/{{ category.pk }}">{{ category.name }}</a></li>
+                    <li><a class="text-muted" href="{% url 'catalog:category_info' category.pk %}">{{ category.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="col-6 col-md">
                 <h5>Дополнительно</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Мы пишем</a></li>
+                    <li><a class="text-muted" href="{% url 'blog:index' %}">Мы пишем</a></li>
                 </ul>
             </div>
             <div class="col-6 col-md">

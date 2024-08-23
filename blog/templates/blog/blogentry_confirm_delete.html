@@ -1,0 +1,11 @@
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">  {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Удалить</button>
+        <a style="display: block;text-decoration: none;" href="{% url 'blog:index' %}">
+            <button type="submit">Отмена</button>
+        </a>
+    </form>
+{% endblock %}

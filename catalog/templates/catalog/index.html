@@ -6,10 +6,12 @@
             продать</p>
     </div>
     <div class="row text-center">
+
         {% for product in product_list %}
 
             {% include 'catalog/includes/product_card.html' %}
 
         {% endfor %}
+
     </div>
 {% endblock %}
