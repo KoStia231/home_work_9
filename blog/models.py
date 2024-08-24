@@ -3,6 +3,7 @@ from django.db import models
 
 # Create your models here.
 class BlogEntry(models.Model):
+    """Модель блога"""
     title = models.CharField(max_length=50, verbose_name='название')
     slug = models.CharField(max_length=200)
     contents = models.TextField(verbose_name='содержимое')

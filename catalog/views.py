@@ -20,19 +20,24 @@ class MyBaseFooter:
 
 
 class ContactsView(MyBaseFooter, CreateView):
+    """Отображение странички контактов и
+    формы сбора контактов от пользователя с последующим сохранением в бд"""
     model = People
     fields = ('name', 'phone_number', 'message')
     success_url = reverse_lazy('catalog:contacts')
 
 
 class IndexView(MyBaseFooter, ListView):
+    """Главная каталога"""
     model = Product
     template_name = 'catalog/index.html'
 
 
 class ProductView(MyBaseFooter, DetailView):
+    """Один товар"""
     model = Product
 
 
 class CategoryView(MyBaseFooter, DetailView):
+    """Одна категория со всеми товарами в ней реализованно через класс MyBaseFooter"""
     model = Category

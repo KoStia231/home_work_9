@@ -8,6 +8,7 @@ from blog.models import BlogEntry
 
 
 class BlogIndexView(MyBaseFooter, ListView):
+    """Отображение главной страницы блога"""
     model = BlogEntry
     template_name = 'blog/index.html'
 
@@ -18,6 +19,7 @@ class BlogIndexView(MyBaseFooter, ListView):
 
 
 class BlogDetailView(MyBaseFooter, DetailView):
+    """Отображение одной записи блога"""
     model = BlogEntry
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -25,11 +27,12 @@ class BlogDetailView(MyBaseFooter, DetailView):
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.views += 1
-        self.object.save()
+        self.object.save(update_fields=['views'])
         return self.object
 
 
 class BlogCreateView(MyBaseFooter, CreateView):
+    """Страничка с созданием записи блога"""
     model = BlogEntry
     fields = ('title', 'contents', 'image')
     success_url = reverse_lazy('blog:index')
@@ -43,6 +46,7 @@ class BlogCreateView(MyBaseFooter, CreateView):
 
 
 class BlogUpdateView(MyBaseFooter, UpdateView):
+    """Старничка с редактированием блога """
     model = BlogEntry
     fields = ('title', 'contents', 'image')
     success_url = reverse_lazy('blog:detail')
@@ -59,6 +63,7 @@ class BlogUpdateView(MyBaseFooter, UpdateView):
 
 
 class BlogDeleteView(MyBaseFooter, DeleteView):
+    """Страничка с удалением блога"""
     model = BlogEntry
     success_url = reverse_lazy('blog:index')
 # Create your views here.
