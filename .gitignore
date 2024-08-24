@@ -4,3 +4,5 @@
 .DS_Store
 data.txt
 db.sqlite3
+/catalog/migrations
+/blog/migrations
