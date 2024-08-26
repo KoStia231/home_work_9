@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
-from catalog.models import Product, Category, People
+from catalog.models import Product, Category, People, Contacts
 
 
 # Create your views here.
@@ -25,6 +25,10 @@ class ContactsView(MyBaseFooter, CreateView):
     model = People
     fields = ('name', 'phone_number', 'message')
     success_url = reverse_lazy('catalog:contacts')
+
+    @staticmethod
+    def view_contacts():
+        return Contacts.objects.all()
 
 
 class IndexView(MyBaseFooter, ListView):

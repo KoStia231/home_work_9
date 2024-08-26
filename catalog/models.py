@@ -41,3 +41,21 @@ class People(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Contacts(models.Model):
+    country = models.CharField(max_length=200, verbose_name='страна')
+    inn = models.CharField(verbose_name='инн')
+    address = models.TextField(verbose_name='адрес')
+
+    class Meta:
+        verbose_name = 'контакт на сайте'
+        verbose_name_plural = 'контакты на сайте'
+
+    def __str__(self):
+        return self.country
+
+
+# для себя добавил чтобы не писать ручками)
+# python3 manage.py makemigrations
+# python3 manage.py migrate

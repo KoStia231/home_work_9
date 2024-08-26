@@ -1,26 +1,34 @@
 <div class="row">
-            <div class="col-12 col-md">
-                SkyStore
-                <small class="d-block mb-3 text-muted">&copy; 2023</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Категории</h5>
-                <ul class="list-unstyled text-small">
-                    {% for category in category_list %}
-                    <li><a class="text-muted" href="{% url 'catalog:category_info' category.pk %}">{{ category.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Дополнительно</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="{% url 'blog:index' %}">Мы пишем</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>О нас</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="{% url 'catalog:contacts' %}">Контакты</a></li>
-                </ul>
-            </div>
-        </div>
+    <div class="col-12 col-md">
+        SkyStore
+        <small class="d-block mb-3 text-muted">&copy; 2023</small>
+    </div>
+    <div class="col-6 col-md">
+        <h5>Категории</h5>
+        <ul class="list-unstyled text-small">
+            {% for category in category_list %}
+                <li><a class="text-muted" href="{% url 'catalog:category_info' category.pk %}">{{ category.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-6 col-md">
+        <h5>Дополнительно</h5>
+        <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="{% url 'blog:index' %}">Мы пишем</a></li>
+        </ul>
+    </div>
+    <div class="col-6 col-md">
+        <h5>О нас</h5>
+        <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="{% url 'catalog:contacts' %}">Контакты</a></li>
+        </ul>
+    </div>
+    <div class="col-6 col-md">
+        <h5>Заглушка для админки</h5>
+        <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="{% url 'admin:index' %}">Вход</a></li>
+        </ul>
+    </div>
+
+</div>
