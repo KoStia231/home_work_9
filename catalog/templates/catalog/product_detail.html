@@ -1,13 +1,31 @@
 {% extends 'catalog/base.html' %}
 {% load my_media %}
 {% block content %}
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">{{ product.name }}</h1>
-        <p class="lead">Описание: {{ product.description }}</p>
-        <p class="lead">Фото: <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}"> </p>
-        <p class="lead">Категория: {{ product.category }}</p>
-        <p class="lead">Цена: {{ product.price }}</p>
-        <p class="lead">Создан: {{ product.created_at}}</p>
-        <p class="lead">Обновлен: {{ product.updated_at }}</p>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1 class="display-4">{{ product.name }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">Описание: {{ product.description }}</p>
+                        <div class="text-center mb-3">
+                            <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}">
+                        </div>
+                        <p class="lead">Категория:
+                            <a href="{% url 'catalog:category_info' product.category.pk %}">
+                                <span class="badge bg-primary">
+                                    {{ product.category }}
+                                </span>
+                            </a>
+                        </p>
+                        <p class="lead">Цена: <span class="text-success">{{ product.price }}</span></p>
+                        <p class="lead">Создан: {{ product.created_at|date:"d M Y H:i" }}</p>
+                        <p class="lead">Обновлен: {{ product.updated_at|date:"d M Y H:i" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
