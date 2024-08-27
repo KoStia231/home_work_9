@@ -11,7 +11,7 @@ class BlogEntry(models.Model):
     image = models.ImageField(upload_to='blog_entry/', verbose_name='превью')
     views = models.IntegerField(default=0, verbose_name='просмотры')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
-    updated_at = models.DateTimeField(auto_now_add=True, verbose_name='дата изменения')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='дата изменения')
 
     class Meta:
         verbose_name = 'Запись блога'

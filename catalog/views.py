@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from catalog.models import Product, Category, People, Contacts
 
 
@@ -37,11 +37,63 @@ class IndexView(MyBaseFooter, ListView):
     template_name = 'catalog/index.html'
 
 
-class ProductView(MyBaseFooter, DetailView):
-    """Один товар"""
+class ProductDetailView(MyBaseFooter, DetailView):
+    """Отображение одного продукта"""
     model = Product
 
 
-class CategoryView(MyBaseFooter, DetailView):
+class ProductCreateView(MyBaseFooter, CreateView):
+    """Страничка создания нового продукта"""
+    model = Product
+    fields = '__all__'
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_form.html'
+
+
+class ProductUpdateView(MyBaseFooter, UpdateView):
+    """Страничка редактирования продукта"""
+    model = Product
+    fields = '__all__'
+    success_url = reverse_lazy('catalog:detail')
+    template_name = 'catalog/object_form.html'
+
+    def get_success_url(self):
+        return reverse('catalog:detail', args=[self.object.pk])
+
+
+class ProductDeleteView(MyBaseFooter, DeleteView):
+    """Страничка удаления продукта"""
+    model = Product
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_confirm_delete.html'
+
+
+class CategoryDetailView(MyBaseFooter, DetailView):
     """Одна категория со всеми товарами в ней реализованно через класс MyBaseFooter"""
     model = Category
+
+
+class CategoryCreateView(MyBaseFooter, CreateView):
+    """Страничка создания новой категории"""
+    model = Category
+    fields = '__all__'
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_form.html'
+
+
+class CategoryUpdateView(MyBaseFooter, UpdateView):
+    """Страничка редактирования категории"""
+    model = Category
+    fields = '__all__'
+    success_url = reverse_lazy('catalog:category_detail')
+    template_name = 'catalog/object_form.html'
+
+    def get_success_url(self):
+        return reverse('catalog:category_detail', args=[self.object.pk])
+
+
+class CategoryDeleteView(MyBaseFooter, DeleteView):
+    """Страничка удаления категории"""
+    model = Category
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_confirm_delete.html'

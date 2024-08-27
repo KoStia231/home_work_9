@@ -14,7 +14,7 @@
                             <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}">
                         </div>
                         <p class="lead">Категория:
-                            <a href="{% url 'catalog:category_info' product.category.pk %}">
+                            <a href="{% url 'catalog:category_detail' product.category.pk %}">
                                 <span class="badge bg-primary">
                                     {{ product.category }}
                                 </span>
@@ -23,6 +23,8 @@
                         <p class="lead">Цена: <span class="text-success">{{ product.price }} Руб</span></p>
                         <p class="lead">Создан: {{ product.created_at|date:"d M Y H:i" }}</p>
                         <p class="lead">Обновлен: {{ product.updated_at|date:"d M Y H:i" }}</p>
+                        <a href="{% url 'catalog:update' product.pk %}" class="btn btn-primary">Редактировать</a>
+                        <a href="{% url 'catalog:delete' product.pk %}" class="btn btn-primary">Удалить</a>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Удалить</button>
-        <a style="display: block;text-decoration: none;" href="{% url 'blog:index' %}">
+        <a style="display: block;text-decoration: none;" href="{% url 'catalog:index' %}">
             <button type="submit">Отмена</button>
         </a>
     </form>
