@@ -1,17 +1,17 @@
-<div class="col-3">
-    <a style="display: block;text-decoration: none;" href="{% url 'catalog:product_info' product.pk %}">
-        <div class="card  box-shadow h-100">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ product.price }}</h1>
-                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>- {{ product.description|truncatechars:100 }}</li>
-
-                </ul>
-                <button  type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
-            </div>
+<div class="col">
+    <div class="card h-100">
+        <div class="card-header">
+            <h5 class="card-title">{{ product.name }}</h5>
         </div>
-    </a>
+        <div class="card-body">
+            <p class="card-text">Описание: {{ product.description|truncatechars:100 }}</p>
+            <h3>Цена: {{ product.price }} руб</h3>
+        </div>
+        <div class=" text-center mb-3 mt-2">
+            <a href="{% url 'catalog:product_info' product.pk %}">
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary">подробнее</button>
+            </a>
+        </div>
+    </div>
+
 </div>

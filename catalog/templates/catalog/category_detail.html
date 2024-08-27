@@ -4,7 +4,7 @@
         <h1 class="display-4">{{ category.name }}</h1>
         <p class="lead">Описание: {{ category.description }}</p>
     </div>
-    <div class="row text-center">
+    <div class="row row-cols-1 row-cols-md-4 g-5">
         {% for product in product_list %}
             {% if product.category == category %}
                 {% include 'catalog/includes/product_card.html' %}
