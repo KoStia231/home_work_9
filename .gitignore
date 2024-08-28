@@ -6,3 +6,5 @@ data.txt
 db.sqlite3
 /catalog/migrations
 /blog/migrations
+/media/blog_entry
+/media/products
