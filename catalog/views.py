@@ -1,8 +1,17 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from catalog.models import Product, Category, People, Contacts
+from django.views.generic import (
+    ListView, CreateView,
+    DetailView, DeleteView,
+    UpdateView
+)
 
+from catalog.models import (
+    Product, Category,
+    People, Contacts
+)
+
+from catalog.forms import CategoryForm, ProductForm
 
 # Create your views here.
 
@@ -45,7 +54,7 @@ class ProductDetailView(MyBaseFooter, DetailView):
 class ProductCreateView(MyBaseFooter, CreateView):
     """Страничка создания нового продукта"""
     model = Product
-    fields = '__all__'
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
@@ -53,7 +62,7 @@ class ProductCreateView(MyBaseFooter, CreateView):
 class ProductUpdateView(MyBaseFooter, UpdateView):
     """Страничка редактирования продукта"""
     model = Product
-    fields = '__all__'
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:detail')
     template_name = 'catalog/object_form.html'
 
@@ -76,7 +85,7 @@ class CategoryDetailView(MyBaseFooter, DetailView):
 class CategoryCreateView(MyBaseFooter, CreateView):
     """Страничка создания новой категории"""
     model = Category
-    fields = '__all__'
+    form_class = CategoryForm
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
@@ -84,7 +93,7 @@ class CategoryCreateView(MyBaseFooter, CreateView):
 class CategoryUpdateView(MyBaseFooter, UpdateView):
     """Страничка редактирования категории"""
     model = Category
-    fields = '__all__'
+    form_class = CategoryForm
     success_url = reverse_lazy('catalog:category_detail')
     template_name = 'catalog/object_form.html'
 
