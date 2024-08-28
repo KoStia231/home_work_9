@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 
+from blog.forms import BlogEntryForm
 from catalog.views import MyBaseFooter
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from blog.models import BlogEntry
@@ -34,7 +35,7 @@ class BlogDetailView(MyBaseFooter, DetailView):
 class BlogCreateView(MyBaseFooter, CreateView):
     """Страничка с созданием записи блога"""
     model = BlogEntry
-    fields = ('title', 'contents', 'image')
+    form_class = BlogEntryForm
     success_url = reverse_lazy('blog:index')
 
     def form_valid(self, form):
@@ -48,7 +49,7 @@ class BlogCreateView(MyBaseFooter, CreateView):
 class BlogUpdateView(MyBaseFooter, UpdateView):
     """Старничка с редактированием блога """
     model = BlogEntry
-    fields = ('title', 'contents', 'image')
+    form_class = BlogEntryForm
     success_url = reverse_lazy('blog:detail')
 
     def form_valid(self, form):
