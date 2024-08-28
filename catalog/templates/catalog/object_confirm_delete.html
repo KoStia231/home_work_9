@@ -2,14 +2,24 @@
 {% load my_media %}
 {% block content %}
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Удаление {{ object.name }}</h1>
+        <h1 class="display-4">Вы уверены, что хотите удалить {{ object.name }}?</h1>
     </div>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Удалить</button>
-        <a style="display: block;text-decoration: none;" href="{% url 'catalog:index' %}">
-            <button type="submit">Отмена</button>
-        </a>
-    </form>
+    <div class="row">
+
+        <div class="col-1">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-outline-danger">Удалить</button>
+            </form>
+        </div>
+        <div class="col-1">
+            <a style="display: block;text-decoration: none;" href="{% url 'catalog:index' %}">
+                <button class="btn btn-outline-primary">Отмена</button>
+            </a>
+        </div>
+
+    </div>
 {% endblock %}
+
+
