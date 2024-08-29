@@ -1,10 +1,18 @@
 from django.contrib import admin
-from .models import Category, Product, People, Contacts
+from .models import (
+    Category, Product,
+    People, Contacts, Version
+)
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'version_number', 'name', 'is_active')
 
 
 @admin.register(Product)
@@ -35,7 +43,3 @@ class ContactsAdmin(admin.ModelAdmin):
     def delete_model(self, request, obj):
         # Переопределяем метод удаления объекта
         super().delete_model(request, obj)
-
-
-
-

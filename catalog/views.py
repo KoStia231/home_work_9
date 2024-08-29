@@ -8,10 +8,12 @@ from django.views.generic import (
 
 from catalog.models import (
     Product, Category,
-    People, Contacts
+    People, Contacts,
+    Version
 )
 
-from catalog.forms import CategoryForm, ProductForm
+from catalog.forms import CategoryForm, ProductForm, VersionForm
+
 
 # Create your views here.
 
@@ -46,9 +48,38 @@ class IndexView(MyBaseFooter, ListView):
     template_name = 'catalog/index.html'
 
 
+class VersionCreateView(MyBaseFooter, CreateView):
+    """Страничка создания новой версии продукта"""
+    model = Version
+    form_class = VersionForm
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_form.html'
+
+
+class VersionUpdateView(MyBaseFooter, Version, UpdateView):
+    """Страничка редактирования версии продукта"""
+    model = Version
+    form_class = VersionForm
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_form.html'
+
+
+class VersionDeleteView(MyBaseFooter, DeleteView):
+    """Страничка удаления версии продукта"""
+    model = Version
+    success_url = reverse_lazy('catalog:index')
+    template_name = 'catalog/object_confirm_delete.html'
+
+
 class ProductDetailView(MyBaseFooter, DetailView):
     """Отображение одного продукта"""
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        context['version'] = Version.objects.filter(product=product, is_active=True).first()
+        return context
 
 
 class ProductCreateView(MyBaseFooter, CreateView):

@@ -20,14 +20,36 @@
                                 </span>
                             </a>
                         </p>
+                        {% if version %}
+                            <p class="lead">Версия: {{ version.name }}</p>
+                        {% else %}
+                            <p class="lead">Первая версия</p>
+                        {% endif %}
                         <p class="lead">Цена: <span class="text-success">{{ product.price }} Руб</span></p>
                         <p class="lead">Создан: {{ product.created_at|date:"d M Y H:i" }}</p>
                         <p class="lead">Обновлен: {{ product.updated_at|date:"d M Y H:i" }}</p>
-                        <a href="{% url 'catalog:update' product.pk %}" class="btn btn-outline-primary">Редактировать</a>
-                        <a href="{% url 'catalog:delete' product.pk %}" class="btn btn-outline-danger">Удалить</a>
+                        <a href="{% url 'catalog:update' product.pk %}" class="btn btn-outline-primary">
+                            Редактировать продукт
+                        </a>
+                        <a href="{% url 'catalog:delete' product.pk %}" class="btn btn-outline-danger">
+                            Удалить продукт
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'catalog:create_version' %}" class="btn btn-outline-primary">
+                            Создать версию продукта
+                        </a>
+                        {% if version %}
+                            <a href="{% url 'catalog:update_version' version.pk %}" class="btn btn-outline-primary">
+                                Редактировать версию
+                            </a>
+                            <a href="{% url 'catalog:delete_version' version.pk %}" class="btn btn-outline-danger">
+                                удалить версию версию
+                            </a>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 {% endblock %}

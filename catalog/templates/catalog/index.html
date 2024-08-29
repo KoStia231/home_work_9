@@ -8,12 +8,8 @@
         <a href="{% url 'catalog:category_create' %}" class="btn btn-primary">Новая категория</a>
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-5">
-
         {% for product in product_list %}
-
             {% include 'catalog/includes/product_card.html' %}
-
         {% endfor %}
-
     </div>
 {% endblock %}

@@ -30,6 +30,20 @@ class Product(models.Model):
         return self.name
 
 
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
+    version_number = models.IntegerField(verbose_name='версия')
+    name = models.CharField(max_length=200, verbose_name='названии версии')
+    is_active = models.BooleanField(default=True, verbose_name='активна')
+
+    class Meta:
+        verbose_name = 'Версия продукта'
+        verbose_name_plural = 'Версии продукта'
+
+    def __str__(self):
+        return self.name
+
+
 class People(models.Model):
     name = models.CharField(max_length=200, verbose_name='название')
     phone_number = models.IntegerField(verbose_name='телефон')
@@ -54,7 +68,6 @@ class Contacts(models.Model):
 
     def __str__(self):
         return self.country
-
 
 # для себя добавил чтобы не писать ручками)
 # python3 manage.py makemigrations
