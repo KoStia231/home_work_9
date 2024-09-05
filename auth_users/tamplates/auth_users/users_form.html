@@ -1,0 +1,9 @@
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+    </form>
+{% endblock %}

@@ -46,6 +46,20 @@ class MyCleanForm:
                 raise forms.ValidationError('Ошибка, нельзя использовать эти слова')
         return cleaned_data
 
+    def clean_email(self):
+        cleaned_data = self.cleaned_data.get('email').lower()
+        for word in self.WORDS:
+            if word in cleaned_data:
+                raise forms.ValidationError('Ошибка, нельзя использовать эти слова')
+        return cleaned_data
+
+    def clean_country(self):
+        cleaned_data = self.cleaned_data.get('country').lower()
+        for word in self.WORDS:
+            if word in cleaned_data:
+                raise forms.ValidationError('Ошибка, нельзя использовать эти слова')
+        return cleaned_data
+
 
 class ProductForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
     """Форма создания и редактирования продукта"""
