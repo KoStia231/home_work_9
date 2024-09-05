@@ -6,6 +6,8 @@ data.txt
 db.sqlite3
 /catalog/migrations
 /blog/migrations
+/auth_users/migrations
 /media/blog_entry
 /media/products
+/media/avatars
 замечания.txt
