@@ -1,7 +1,9 @@
 Учебный интернет магазин
 наполнить бд товарами 
 
-`python3 manage.py loaddata db.json`
+``` python
+python3 manage.py loaddata db.json
+```
 
 ## Пользователи в базе
 
