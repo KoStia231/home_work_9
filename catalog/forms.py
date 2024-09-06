@@ -66,7 +66,7 @@ class ProductForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('autor',)
 
 
 class CategoryForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
@@ -74,7 +74,7 @@ class CategoryForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = '__all__'
+        exclude = ('autor',)
 
 
 class VersionForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
@@ -82,4 +82,4 @@ class VersionForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
 
     class Meta:
         model = Version
-        fields = '__all__'
+        exclude = ('autor',)

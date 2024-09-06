@@ -12,6 +12,7 @@ class BlogEntry(models.Model):
     views = models.IntegerField(default=0, verbose_name='просмотры')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='дата изменения')
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
 
     class Meta:
         verbose_name = 'Запись блога'

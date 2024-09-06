@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.http import Http404
+
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
 
 from blog.forms import BlogEntryForm
-from catalog.views import MyBaseFooter
+from catalog.views import MyBaseFooter, MyLoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from blog.models import BlogEntry
 
@@ -32,30 +33,34 @@ class BlogDetailView(MyBaseFooter, DetailView):
         return self.object
 
 
-class BlogCreateView(MyBaseFooter, CreateView):
+class BlogCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
     """Страничка с созданием записи блога"""
     model = BlogEntry
     form_class = BlogEntryForm
     success_url = reverse_lazy('blog:index')
 
     def form_valid(self, form):
+        """Сохранение новой записи с автором и слагом"""
         if form.is_valid():
-            new_blog = form.save()
+            new_blog = form.save(commit=False)
             new_blog.slug = slugify(new_blog.title)
+            new_blog.autor = self.request.user
             new_blog.save()
         return super().form_valid(form)
 
 
-class BlogUpdateView(MyBaseFooter, UpdateView):
+class BlogUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
     """Старничка с редактированием блога """
     model = BlogEntry
     form_class = BlogEntryForm
     success_url = reverse_lazy('blog:detail')
 
     def form_valid(self, form):
+        """Сохранение новой записи с автором и слагом"""
         if form.is_valid():
-            new_blog = form.save()
+            new_blog = form.save(commit=False)
             new_blog.slug = slugify(new_blog.title)
+            new_blog.autor = self.request.user
             new_blog.save()
         return super().form_valid(form)
 
@@ -63,8 +68,16 @@ class BlogUpdateView(MyBaseFooter, UpdateView):
         return reverse('blog:detail', args=[self.object.slug])
 
 
-class BlogDeleteView(MyBaseFooter, DeleteView):
+class BlogDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
     """Страничка с удалением блога"""
     model = BlogEntry
     success_url = reverse_lazy('blog:index')
+
+    def get_object(self, queryset=None):
+        """Проверка, что удаляемая версия создана текущем пользователем"""
+        obj = super().get_object(queryset)
+
+        if obj.autor != self.request.user:
+            raise Http404("У вас нет прав на удаление этой версии.")
+        return obj
 # Create your views here.

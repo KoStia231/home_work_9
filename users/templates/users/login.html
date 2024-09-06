@@ -1,0 +1,13 @@
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    <div class="col-3">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-outline-primary">Войти</button>
+        </form>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+    </div>
+
+{% endblock %}

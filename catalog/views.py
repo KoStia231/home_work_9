@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
     ListView, CreateView,
@@ -16,6 +17,12 @@ from catalog.forms import CategoryForm, ProductForm, VersionForm
 
 
 # Create your views here.
+
+
+class MyLoginRequiredMixin(LoginRequiredMixin):
+    """Миксин для всех страниц, которые требуют авторизации"""
+    login_url = 'users:login'
+    redirect_field_name = "redirect_to"
 
 
 class MyBaseFooter:
@@ -48,27 +55,51 @@ class IndexView(MyBaseFooter, ListView):
     template_name = 'catalog/index.html'
 
 
-class VersionCreateView(MyBaseFooter, CreateView):
+class VersionCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
     """Страничка создания новой версии продукта"""
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
+    def form_valid(self, form):
+        """Сохранение версии с автором"""
+        version = form.save(commit=False)
+        version.autor = self.request.user
+        version.save()
 
-class VersionUpdateView(MyBaseFooter, Version, UpdateView):
+        return super().form_valid(form)
+
+
+class VersionUpdateView(MyLoginRequiredMixin, MyBaseFooter, Version, UpdateView):
     """Страничка редактирования версии продукта"""
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
+    def form_valid(self, form):
+        """Сохранение версии с автором"""
+        version = form.save(commit=False)
+        version.autor = self.request.user
+        version.save()
 
-class VersionDeleteView(MyBaseFooter, DeleteView):
+        return super().form_valid(form)
+
+
+class VersionDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
     """Страничка удаления версии продукта"""
     model = Version
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        """Проверка, что удаляемая версия создана текущем пользователем"""
+        obj = super().get_object(queryset)
+
+        if obj.autor != self.request.user:
+            raise Http404("У вас нет прав на удаление этой версии.")
+        return obj
 
 
 class ProductDetailView(MyBaseFooter, DetailView):
@@ -82,15 +113,23 @@ class ProductDetailView(MyBaseFooter, DetailView):
         return context
 
 
-class ProductCreateView(MyBaseFooter, CreateView):
+class ProductCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
     """Страничка создания нового продукта"""
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
+    def form_valid(self, form):
+        """Сохранение продукта с автором"""
+        product = form.save(commit=False)
+        product.autor = self.request.user
+        product.save()
 
-class ProductUpdateView(MyBaseFooter, UpdateView):
+        return super().form_valid(form)
+
+
+class ProductUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
     """Страничка редактирования продукта"""
     model = Product
     form_class = ProductForm
@@ -100,12 +139,28 @@ class ProductUpdateView(MyBaseFooter, UpdateView):
     def get_success_url(self):
         return reverse('catalog:detail', args=[self.object.pk])
 
+    def form_valid(self, form):
+        """Сохранение продукта с автором"""
+        product = form.save(commit=False)
+        product.autor = self.request.user
+        product.save()
 
-class ProductDeleteView(MyBaseFooter, DeleteView):
+        return super().form_valid(form)
+
+
+class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
     """Страничка удаления продукта"""
     model = Product
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        """Проверка, что удаляемый продукт создан текущем пользователем"""
+        obj = super().get_object(queryset)
+
+        if obj.autor != self.request.user:
+            raise Http404("У вас нет прав на удаление этой продукта.")
+        return obj
 
 
 class CategoryDetailView(MyBaseFooter, DetailView):
@@ -113,15 +168,23 @@ class CategoryDetailView(MyBaseFooter, DetailView):
     model = Category
 
 
-class CategoryCreateView(MyBaseFooter, CreateView):
+class CategoryCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
     """Страничка создания новой категории"""
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
+    def form_valid(self, form):
+        """Сохранение категории с автором"""
+        category = form.save(commit=False)
+        category.autor = self.request.user
+        category.save()
 
-class CategoryUpdateView(MyBaseFooter, UpdateView):
+        return super().form_valid(form)
+
+
+class CategoryUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
     """Страничка редактирования категории"""
     model = Category
     form_class = CategoryForm
@@ -131,9 +194,25 @@ class CategoryUpdateView(MyBaseFooter, UpdateView):
     def get_success_url(self):
         return reverse('catalog:category_detail', args=[self.object.pk])
 
+    def form_valid(self, form):
+        """Сохранение категории с автором"""
+        category = form.save(commit=False)
+        category.autor = self.request.user
+        category.save()
 
-class CategoryDeleteView(MyBaseFooter, DeleteView):
+        return super().form_valid(form)
+
+
+class CategoryDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
     """Страничка удаления категории"""
     model = Category
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        """Проверка, что удаляемая категория создана текущем пользователем"""
+        obj = super().get_object(queryset)
+
+        if obj.autor != self.request.user:
+            raise Http404("У вас нет прав на удаление этой категории.")
+        return obj

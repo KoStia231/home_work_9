@@ -15,8 +15,12 @@
             <p class="card-text"><small class="text-muted">Написана: {{ blogentry.created_at }}</small></p>
             <p class="card-text"><small class="text-muted">Изменена: {{ blogentry.updated_at }}</small></p>
             <p class="card-text"><small class="text-muted">Просмотры: {{ blogentry.views }}</small></p>
-            <a href="{% url 'blog:update' blogentry.slug %}" class="btn btn-outline-primary">Редактировать статью</a>
-            <a href="{% url 'blog:delete' blogentry.slug %}" class="btn btn-outline-danger">Удалить статью</a>
+            <p class="card-text"><small class="text-muted">Автор: {{ blogentry.autor.email }}</small></p>
+            {% if request.user == blogentry.autor %}
+                <a href="{% url 'blog:update' blogentry.slug %}" class="btn btn-outline-primary">Редактировать
+                    статью</a>
+                <a href="{% url 'blog:delete' blogentry.slug %}" class="btn btn-outline-danger">Удалить статью</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

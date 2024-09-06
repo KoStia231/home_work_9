@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from auth_users.models import User
+from users.models import User
 
 
 class Command(BaseCommand):
@@ -10,8 +10,9 @@ class Command(BaseCommand):
             email='admin@example.com',
             first_name='admin',
             last_name='admin',
+            is_superuser=True,
             is_staff=True,
-            is_superuser=True
+            country='Россия'
         )
 
         user.set_password('admin')

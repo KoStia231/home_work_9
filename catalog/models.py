@@ -6,6 +6,7 @@ NULLABLE = {'blank': True, 'null': True}
 class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name='название')
     description = models.TextField(verbose_name='описание')
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
 
     class Meta:
         verbose_name = 'Категория'
@@ -23,6 +24,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='цена')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='создан в')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='обновлен в')
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
 
     class Meta:
         verbose_name = 'Продукт'
@@ -37,6 +39,7 @@ class Version(models.Model):
     version_number = models.IntegerField(verbose_name='версия')
     name = models.CharField(max_length=200, verbose_name='названии версии')
     is_active = models.BooleanField(default=True, verbose_name='активна')
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
 
     class Meta:
         verbose_name = 'Версия продукта'
