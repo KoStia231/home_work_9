@@ -101,8 +101,8 @@ LOGOUT_REDIRECT_URL = '/'
 # Настройки для почтового сервиса яндекса
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Почта
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Пароль приложения отправки
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 

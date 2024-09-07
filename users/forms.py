@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from users.models import User
 
 from catalog.forms import CustomFormMixin, MyCleanForm
@@ -15,6 +15,12 @@ class UserRegisterForm(CustomFormMixin, MyCleanForm, UserCreationForm):
         # ссылается на поле username
 
 
+class UserLoginForm(CustomFormMixin, MyCleanForm, AuthenticationForm):
+    class Meta:
+        model = User
+        fields = ('email', 'password')
+
+
 class UserProfileForm(CustomFormMixin, MyCleanForm, UserChangeForm):
     class Meta:
         model = User
@@ -25,5 +31,3 @@ class UserProfileForm(CustomFormMixin, MyCleanForm, UserChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.HiddenInput()
-
-

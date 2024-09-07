@@ -1,5 +1,6 @@
 from django.db import models
 
+# штука чтобы указать поля необязательными в БД
 NULLABLE = {'blank': True, 'null': True}
 
 

@@ -7,7 +7,9 @@
             {{ form.as_p }}
             <button type="submit" class="btn btn-outline-primary">Войти</button>
         </form>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+        <div class="mt-3">
+            <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+            <a class="p-2 btn btn-outline-primary" href="{% url 'users:reset_password' %}">Забыли пароль?</a>
+        </div>
     </div>
-
 {% endblock %}
