@@ -12,7 +12,7 @@
                 <h2>Профиль</h2>
                 <p><strong>Имя:</strong> {{ user.first_name }}</p>
                 <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
-                <p><strong>Location:</strong> New York, USA</p>
+                <p><strong>Страна:</strong> {{ user.country }} </p>
                 {% if user == request.user %}
                     <p><strong>Номер телефона:</strong> {{ user.phone_number }}</p>
                     <p><strong>Email:</strong> {{ user.email }}</p>
