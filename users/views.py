@@ -1,7 +1,9 @@
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DetailView
+
+from catalog.views import MyBaseFooter
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
@@ -10,7 +12,7 @@ import random
 import string
 
 
-class UserRegisterView(CreateView):
+class UserRegisterView(MyBaseFooter, CreateView):
     """Страничка регистрации нового пользователя"""
     model = User
     form_class = UserRegisterForm
@@ -68,13 +70,17 @@ def reset_password(request):
     return render(request, template_name='users/reset_password.html')
 
 
-class UserProfileView(UpdateView):
+class UserProfileUpdateView(MyBaseFooter, UpdateView):
     """Страничка редактирования профиля пользователя"""
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:profile')
 
-    def get_object(self, queryset=None):
-        return self.request.user
+    def get_success_url(self):
+        return reverse('users:profile', args=[self.object.pk])
 
-# Create your views here.
+
+class UserProfileView(MyBaseFooter, DetailView):
+    """Страничка просмотра профиля пользователя"""
+    model = User
+    template_name = 'users/profile.html'

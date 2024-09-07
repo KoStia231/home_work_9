@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <p class="lead">Описание: {{ product.description }}</p>
                         <div class="text-center mb-3">
-                            <img src="{{ product.image| mymedia }}" class="img-thumbnail" alt="{{ product.name }}">
+                            <img src="{{ product.image|mymedia }}" class="img-thumbnail" alt="{{ product.name }}">
                         </div>
                         <p class="lead">Категория:
                             <a href="{% url 'catalog:category_detail' product.category.pk %}">
@@ -28,7 +28,13 @@
                         <p class="lead">Цена: <span class="text-success">{{ product.price }} Руб</span></p>
                         <p class="lead">Создан: {{ product.created_at|date:"d M Y H:i" }}</p>
                         <p class="lead">Обновлен: {{ product.updated_at|date:"d M Y H:i" }}</p>
-                        <p class="lead">Автор: {{ product.autor.email }}</p>
+                        <p class="lead">Автор:
+                            <a href="{% url 'users:profile' product.autor.pk %}">
+                                <span class="badge bg-primary">
+                                    {{ product.autor.email }}
+                                </span>
+                            </a>
+                        </p>
                         {% if product.autor == request.user %}
 
                             <a href="{% url 'catalog:update' product.pk %}" class="btn btn-outline-primary">

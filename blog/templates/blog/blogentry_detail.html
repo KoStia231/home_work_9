@@ -15,7 +15,13 @@
             <p class="card-text"><small class="text-muted">Написана: {{ blogentry.created_at }}</small></p>
             <p class="card-text"><small class="text-muted">Изменена: {{ blogentry.updated_at }}</small></p>
             <p class="card-text"><small class="text-muted">Просмотры: {{ blogentry.views }}</small></p>
-            <p class="card-text"><small class="text-muted">Автор: {{ blogentry.autor.email }}</small></p>
+            <p class="lead">Автор:
+                <a href="{% url 'users:profile' blogentry.autor.pk %}">
+                    <span class="badge bg-primary">
+                        {{ blogentry.autor.email }}
+                    </span>
+                </a>
+            </p>
             {% if request.user == blogentry.autor %}
                 <a href="{% url 'blog:update' blogentry.slug %}" class="btn btn-outline-primary">Редактировать
                     статью</a>

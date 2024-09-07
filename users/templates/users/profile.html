@@ -1,0 +1,68 @@
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Фото пользователя -->
+                <img src='{{ user.avatar|mymedia }}' class="img-fluid rounded-circle" alt="{{ user.email }}">
+            </div>
+            <div class="col-md-8">
+                <!-- Поля профиля пользователя -->
+                <h2>Профиль</h2>
+                <p><strong>Имя:</strong> {{ user.first_name }}</p>
+                <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+                <p><strong>Location:</strong> New York, USA</p>
+                {% if user == request.user %}
+                    <p><strong>Номер телефона:</strong> {{ user.phone_number }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'users:profile_update' user.pk %}">
+                        Редактировать профиль
+                    </a>
+                {% else %}
+                    <p><strong>Номер телефона:</strong> Доступно только авторизованному пользователю</p>
+                    <p><strong>Email:</strong> Доступно только авторизованному пользователю</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mt-5">
+            <!-- Карусель -->
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Динамические карточки товара -->
+                    {% for product in product_list %}
+                        {% if user == product.autor %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Название: {{ product.name }}</h5>
+                                        <p class="card-text">
+                                            Описание: {{ product.description|truncatechars:50 }}</p>
+                                        <div>
+                                            <a href="{% url 'catalog:detail' product.pk %}">
+                                                <button type="button" class="btn btn-block btn-outline-primary">
+                                                    Подробнее
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- Элементы управления каруселью -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

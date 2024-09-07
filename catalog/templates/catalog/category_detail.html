@@ -3,7 +3,14 @@
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">{{ category.name }}</h1>
         <p class="lead">Описание: {{ category.description }}</p>
-        <p class="lead">Автор: {{ category.autor.email }}</p>
+
+        <p class="lead">Автор:
+            <a href="{% url 'users:profile' category.autor.pk %}">
+                <span class="badge bg-primary">
+                    {{ category.autor.email }}
+                </span>
+            </a>
+        </p>
         {% if category.autor == request.user %}
             <a href="{% url 'catalog:category_update' category.pk %}" class="btn btn-primary">Редактировать</a>
             <a href="{% url 'catalog:category_delete' category.pk %}" class="btn btn-primary">Удалить</a>

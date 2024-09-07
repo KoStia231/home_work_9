@@ -2,10 +2,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from users.models import User
 
-from catalog.forms import CustomFormMixin, MyCleanForm
+from catalog.forms import CustomFormMixin
 
 
-class UserRegisterForm(CustomFormMixin, MyCleanForm, UserCreationForm):
+class UserRegisterForm(CustomFormMixin, UserCreationForm):
     # Наследуемся от специальной формы UserCreationForm из модуля auth
     class Meta:
         model = User
@@ -15,13 +15,13 @@ class UserRegisterForm(CustomFormMixin, MyCleanForm, UserCreationForm):
         # ссылается на поле username
 
 
-class UserLoginForm(CustomFormMixin, MyCleanForm, AuthenticationForm):
+class UserLoginForm(CustomFormMixin, AuthenticationForm):
     class Meta:
         model = User
         fields = ('email', 'password')
 
 
-class UserProfileForm(CustomFormMixin, MyCleanForm, UserChangeForm):
+class UserProfileForm(CustomFormMixin, UserChangeForm):
     class Meta:
         model = User
         fields = ('email', 'avatar', 'phone_number',
