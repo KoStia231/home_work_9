@@ -3,6 +3,7 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView
 
+from catalog.models import Product
 from catalog.views import MyBaseFooter
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
@@ -84,3 +85,8 @@ class UserProfileView(MyBaseFooter, DetailView):
     """Страничка просмотра профиля пользователя"""
     model = User
     template_name = 'users/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_products'] = Product.objects.filter(autor=self.object)  # получить продукты пользователя
+        return context

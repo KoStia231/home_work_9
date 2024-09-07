@@ -30,8 +30,7 @@
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <!-- Динамические карточки товара -->
-                    {% for product in product_list %}
-                        {% if user == product.autor %}
+                    {% for product in user_products %}
                             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -48,7 +47,6 @@
                                     </div>
                                 </div>
                             </div>
-                        {% endif %}
                     {% endfor %}
                 </div>
                 <!-- Элементы управления каруселью -->
