@@ -11,3 +11,4 @@ db.sqlite3
 /media/products
 /media/avatars
 замечания.txt
+.env
