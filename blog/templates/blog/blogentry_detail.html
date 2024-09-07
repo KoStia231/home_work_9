@@ -18,7 +18,7 @@
             <p class="lead">Автор:
                 <a href="{% url 'users:profile' blogentry.autor.pk %}">
                     <span class="badge bg-primary">
-                        {{ blogentry.autor.email }}
+                        {{ blogentry.autor.first_name }}
                     </span>
                 </a>
             </p>

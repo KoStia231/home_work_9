@@ -10,7 +10,7 @@ class UserRegisterForm(CustomFormMixin, UserCreationForm):
     class Meta:
         model = User
         # Указываем новую кастомную модель
-        fields = ('email', 'password1', 'password2')
+        fields = ('first_name', 'email', 'password1', 'password2')
         # Меняем поля, так как исходная форма UserCreationForm
         # ссылается на поле username
 

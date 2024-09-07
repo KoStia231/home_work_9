@@ -7,7 +7,7 @@
         <p class="lead">Автор:
             <a href="{% url 'users:profile' category.autor.pk %}">
                 <span class="badge bg-primary">
-                    {{ category.autor.email }}
+                    {{ category.autor.first_name }}
                 </span>
             </a>
         </p>

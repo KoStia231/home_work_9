@@ -1,16 +1,25 @@
+from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView
+import secrets
+import random
+import string
 
+from users.forms import UserLoginForm
 from catalog.models import Product
 from catalog.views import MyBaseFooter
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
-import secrets
-import random
-import string
+
+
+class UserLoginView(MyBaseFooter, LoginView):
+    """Страничка входа"""
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
+    redirect_authenticated_user = True  # авторизовать пользователя при успешном входе
 
 
 class UserRegisterView(MyBaseFooter, CreateView):
