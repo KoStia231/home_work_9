@@ -10,7 +10,7 @@ import string
 from users.forms import UserLoginForm
 from catalog.models import Product
 from catalog.views import MyBaseFooter
-from users.forms import UserRegisterForm, UserProfileForm
+from users.forms import UserRegisterForm, UserProfileUpdateForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
 
@@ -83,11 +83,20 @@ def reset_password(request):
 class UserProfileUpdateView(MyBaseFooter, UpdateView):
     """Страничка редактирования профиля пользователя"""
     model = User
-    form_class = UserProfileForm
+    form_class = UserProfileUpdateForm
     success_url = reverse_lazy('users:profile')
 
     def get_success_url(self):
         return reverse('users:profile', args=[self.object.pk])
+
+    def form_valid(self, form):
+        """Сохранение измененных данных пользователя"""
+        user = form.save(commit=False)
+        password = self.request.POST.get('new_password')  # получить пароль из POST запроса
+        user.set_password(password)  # заменить пароль на новый пароль
+        user.new_password = None  # очистить поле нового пароля
+        user.save()  # сохранить изменения
+        return super().form_valid(form)
 
 
 class UserProfileView(MyBaseFooter, DetailView):

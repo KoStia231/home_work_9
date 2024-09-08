@@ -4,12 +4,8 @@ from django.urls import path
 from django.contrib.auth.views import LogoutView
 
 from users.views import (
-    UserLoginView,
-    UserRegisterView,
-    UserProfileUpdateView,
-    UserProfileView,
-    verify_mail,
-    reset_password
+    UserLoginView, UserRegisterView, UserProfileUpdateView,
+    UserProfileView, verify_mail, reset_password
 )
 
 from users.apps import UsersConfig

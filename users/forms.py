@@ -21,13 +21,14 @@ class UserLoginForm(CustomFormMixin, AuthenticationForm):
         fields = ('email', 'password')
 
 
-class UserProfileForm(CustomFormMixin, UserChangeForm):
+class UserProfileUpdateForm(CustomFormMixin, UserChangeForm):
     class Meta:
         model = User
         fields = ('email', 'avatar', 'phone_number',
-                  'country', 'first_name', 'last_name'
+                  'country', 'first_name', 'last_name', 'new_password'
                   )
 
     def __init__(self, *args, **kwargs):
+        """Штука скрывает стандартное поле пароля"""
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.HiddenInput()
