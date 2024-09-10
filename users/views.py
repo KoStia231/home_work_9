@@ -9,7 +9,7 @@ import string
 
 from users.forms import UserLoginForm
 from catalog.models import Product
-from catalog.views import MyBaseFooter
+from catalog.views import MyBaseFooter, MyLoginRequiredMixin
 from users.forms import UserRegisterForm, UserProfileUpdateForm
 from users.models import User
 from config.settings import EMAIL_HOST_USER
@@ -80,7 +80,7 @@ def reset_password(request):
     return render(request, template_name='users/reset_password.html')
 
 
-class UserProfileUpdateView(MyBaseFooter, UpdateView):
+class UserProfileUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
     """Страничка редактирования профиля пользователя"""
     model = User
     form_class = UserProfileUpdateForm
