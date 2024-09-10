@@ -22,9 +22,11 @@
                     </span>
                 </a>
             </p>
-            {% if request.user == blogentry.autor %}
+            {% if request.user == blogentry.autor or perms.blog.can_edit_publications %}
                 <a href="{% url 'blog:update' blogentry.slug %}" class="btn btn-outline-primary">Редактировать
                     статью</a>
+            {% endif %}
+            {% if request.user == blogentry.autor %}
                 <a href="{% url 'blog:delete' blogentry.slug %}" class="btn btn-outline-danger">Удалить статью</a>
             {% endif %}
         </div>

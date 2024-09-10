@@ -35,11 +35,13 @@
                                 </span>
                             </a>
                         </p>
-                        {% if product.autor == request.user %}
+                        {% if product.autor == request.user or perms.catalog.can_edit_description %}
 
                             <a href="{% url 'catalog:update' product.pk %}" class="btn btn-outline-primary">
                                 Редактировать продукт
                             </a>
+                        {% endif %}
+                        {% if product.autor == request.user %}
                             <a href="{% url 'catalog:delete' product.pk %}" class="btn btn-outline-danger">
                                 Удалить продукт
                             </a>

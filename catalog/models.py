@@ -26,10 +26,16 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='создан в')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='обновлен в')
     autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
+    publications = models.BooleanField(default=True, verbose_name='флаг публикации')
 
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+        permissions = [
+            ('can_edit_description', 'Может редактировать описание продукта'),
+            ('can_edit_category', 'Может редактировать категорию продукта'),
+            ('can_edit_publications', 'Может менять статус публикации продокта'),
+        ]
 
     def __str__(self):
         return self.name

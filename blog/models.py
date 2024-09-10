@@ -17,6 +17,9 @@ class BlogEntry(models.Model):
     class Meta:
         verbose_name = 'Запись блога'
         verbose_name_plural = 'Записи блога'
+        permissions = [
+            ('can_edit_publications', 'Может редактировать флаг публикации'),
+        ]
 
     def __str__(self):
         return self.title

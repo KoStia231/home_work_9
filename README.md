@@ -30,7 +30,7 @@ python3 manage.py admin_reg
 
 ### Наполнить бд товарами
 ``` python
-python3 manage.py loaddata db.json
+python3 manage.py loaddata bd.json
 ```
 
 ### Запуск сервера
@@ -44,10 +44,7 @@ python3 manage.py runserver
 > 
 >password-> ***admin***
 
->username-> ***test@gmail.com***
+>username-> ***kosta123139@gmail.com***
 > 
->password-> ***cnfhiksnvhailsuhncviluafs***
+>password-> ***Hh14767Hh***
 
->username-> ***test1@gmail.com***
-> 
->password-> ***nvghiluacmhgelarhucgmael***

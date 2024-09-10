@@ -11,3 +11,10 @@ class BlogEntryForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
         fields = ('title', 'contents', 'image', 'publications')
 
 
+class BlogEntryModeratorForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
+    """Форма для создания и редактирования записей блога"""
+    class Meta:
+        model = BlogEntry
+        fields = ('publications',)
+
+

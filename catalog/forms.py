@@ -55,6 +55,14 @@ class ProductForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
         exclude = ('autor',)
 
 
+class ProductModeratorForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
+    """Форма создания и редактирования продукта модератора"""
+
+    class Meta:
+        model = Product
+        fields = ('publications', 'description', 'category',)
+
+
 class CategoryForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
     """Форма создания и редактирования категории"""
 

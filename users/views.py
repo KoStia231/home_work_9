@@ -93,8 +93,9 @@ class UserProfileUpdateView(MyBaseFooter, UpdateView):
         """Сохранение измененных данных пользователя"""
         user = form.save(commit=False)
         password = self.request.POST.get('new_password')  # получить пароль из POST запроса
-        user.set_password(password)  # заменить пароль на новый пароль
-        user.new_password = None  # очистить поле нового пароля
+        if password != '':  # если поле пароля не пустое, заменить
+            user.set_password(password)  # заменить пароль на новый пароль
+            user.new_password = None  # очистить поле нового пароля
         user.save()  # сохранить изменения
         return super().form_valid(form)
 
@@ -106,5 +107,5 @@ class UserProfileView(MyBaseFooter, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_products'] = Product.objects.filter(autor=self.object)  # получить продукты пользователя
+        context['user_products'] = Product.objects.filter(autor=self.object, publications=True)  # получить продукты пользователя
         return context

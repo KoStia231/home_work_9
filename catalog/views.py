@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
@@ -13,7 +14,10 @@ from catalog.models import (
     Version
 )
 
-from catalog.forms import CategoryForm, ProductForm, VersionForm
+from catalog.forms import (
+    CategoryForm, ProductForm,
+    VersionForm, ProductModeratorForm
+)
 
 
 # Create your views here.
@@ -33,7 +37,6 @@ class MyBaseFooter:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
-        context['product_list'] = Product.objects.all()
         return context
 
 
@@ -53,6 +56,9 @@ class IndexView(MyBaseFooter, ListView):
     """Главная каталога"""
     model = Product
     template_name = 'catalog/index.html'
+
+    def get_queryset(self, *args, **kwargs):
+        return Product.objects.filter(publications=True)
 
 
 class VersionCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
@@ -132,20 +138,22 @@ class ProductCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
 class ProductUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
     """Страничка редактирования продукта"""
     model = Product
-    form_class = ProductForm
     success_url = reverse_lazy('catalog:detail')
     template_name = 'catalog/object_form.html'
 
     def get_success_url(self):
         return reverse('catalog:detail', args=[self.object.pk])
 
-    def form_valid(self, form):
-        """Сохранение продукта с автором"""
-        product = form.save(commit=False)
-        product.autor = self.request.user
-        product.save()
+    def get_form_class(self):
+        """Редактирование формы для продукта в зависимости от того,
+           какие права доступа у текущего пользователя"""
+        user = self.request.user
+        if user == self.object.autor:
+            return ProductForm
 
-        return super().form_valid(form)
+        if user.has_perm('catalog.can_edit_description'):
+            return ProductModeratorForm
+        raise PermissionDenied("У вас нет прав на редактирование этого прод")
 
 
 class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
@@ -164,8 +172,13 @@ class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
 
 
 class CategoryDetailView(MyBaseFooter, DetailView):
-    """Одна категория со всеми товарами в ней реализованно через класс MyBaseFooter"""
+    """Одна категория со всеми товарами"""
     model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product_list'] = Product.objects.filter(publications=True)
+        return context
 
 
 class CategoryCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
@@ -194,13 +207,6 @@ class CategoryUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
     def get_success_url(self):
         return reverse('catalog:category_detail', args=[self.object.pk])
 
-    def form_valid(self, form):
-        """Сохранение категории с автором"""
-        category = form.save(commit=False)
-        category.autor = self.request.user
-        category.save()
-
-        return super().form_valid(form)
 
 
 class CategoryDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
