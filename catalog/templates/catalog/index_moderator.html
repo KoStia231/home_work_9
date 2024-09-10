@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    {% if perms.catalog.can_edit_description %}
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-4">Skystore</h1>
+            <p class="lead">Снятые с публикации продукты</p>
+            <a href="{% url 'catalog:index' %}" class="btn btn-primary">На главную</a>
+        </div>
+        <div class="row row-cols-1 row-cols-md-4 g-5">
+            {% for product in product_list %}
+                {% include 'catalog/includes/product_card.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

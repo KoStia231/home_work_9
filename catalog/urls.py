@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from catalog.views import (
-    IndexView, ContactsView, ProductDetailView,
+    IndexView, ModeratorView, ContactsView, ProductDetailView,
     CategoryDetailView, ProductUpdateView, ProductDeleteView,
     ProductCreateView, CategoryUpdateView, CategoryDeleteView,
     CategoryCreateView, VersionCreateView, VersionUpdateView,
@@ -14,6 +14,7 @@ app_name = CatalogConfig.name
 
 urlpatterns = [
                   path('', IndexView.as_view(), name='index'),
+                  path('product-not-publications/', ModeratorView.as_view(), name='moderator'),
                   path('product/<int:pk>/', ProductDetailView.as_view(), name='detail'),
                   path('product/update/<int:pk>/', ProductUpdateView.as_view(), name='update'),
                   path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='delete'),

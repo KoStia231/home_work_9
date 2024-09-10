@@ -7,6 +7,9 @@
             который вы бы хотели продать</p>
         <a href="{% url 'catalog:create' %}" class="btn btn-primary">Новый продукт</a>
         <a href="{% url 'catalog:category_create' %}" class="btn btn-primary">Новая категория</a>
+        {% if perms.catalog.can_edit_description %}
+            <a href="{% url 'catalog:moderator' %}" class="btn btn-primary">Снятые с публикации продукты</a>
+        {% endif %}
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-5">
         {% for product in product_list %}

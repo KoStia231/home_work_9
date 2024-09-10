@@ -58,7 +58,20 @@ class IndexView(MyBaseFooter, ListView):
     template_name = 'catalog/index.html'
 
     def get_queryset(self, *args, **kwargs):
-        return Product.objects.filter(publications=True)
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(publications=True)
+        return queryset
+
+
+class ModeratorView(MyBaseFooter, ListView):
+    """Главная каталога"""
+    model = Product
+    template_name = 'catalog/index_moderator.html'
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(publications=False)
+        return queryset
 
 
 class VersionCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):

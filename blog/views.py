@@ -29,6 +29,17 @@ class BlogIndexView(MyBaseFooter, ListView):
         return queryset
 
 
+class ModeratorView(MyBaseFooter, ListView):
+    """Отображение главной страницы блога"""
+    model = BlogEntry
+    template_name = 'blog/index_moderator.html'
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(publications=False)
+        return queryset
+
+
 class BlogDetailView(MyBaseFooter, DetailView):
     """Отображение одной записи блога"""
     model = BlogEntry
