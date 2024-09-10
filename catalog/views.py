@@ -190,7 +190,8 @@ class CategoryDetailView(MyBaseFooter, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['product_list'] = Product.objects.filter(publications=True)
+        # (object)_set динамическая переменная которая выводит все продукты из этой категории
+        context['products'] = self.object.product_set.filter(publications=True)
         return context
 
 

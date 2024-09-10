@@ -13,14 +13,14 @@
         </p>
         {% if category.autor == request.user %}
             <a href="{% url 'catalog:category_update' category.pk %}" class="btn btn-primary">Редактировать</a>
-            <a href="{% url 'catalog:category_delete' category.pk %}" class="btn btn-primary">Удалить</a>
+            <a href="{% url 'catalog:category_delete' category.pk %}" class="btn btn-danger">Удалить</a>
         {% endif %}
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-5">
-        {% for product in product_list %}
-            {% if product.category == category %}
+        {% for product in products %}
+            
                 {% include 'catalog/includes/product_card.html' %}
-            {% endif %}
+            
         {% endfor %}
     </div>
 
