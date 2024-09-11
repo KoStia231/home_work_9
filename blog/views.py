@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 
@@ -29,8 +30,9 @@ class BlogIndexView(MyBaseFooter, ListView):
         return queryset
 
 
-class ModeratorView(MyBaseFooter, ListView):
+class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, MyBaseFooter, ListView):
     """Отображение главной страницы блога"""
+    permission_required = 'blog.can_edit_publications'
     model = BlogEntry
     template_name = 'blog/index_moderator.html'
 

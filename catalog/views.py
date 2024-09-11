@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
@@ -63,8 +63,9 @@ class IndexView(MyBaseFooter, ListView):
         return queryset
 
 
-class ModeratorView(MyBaseFooter, ListView):
+class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, MyBaseFooter, ListView):
     """Главная каталога"""
+    permission_required = 'catalog.can_edit_description'
     model = Product
     template_name = 'catalog/index_moderator.html'
 
