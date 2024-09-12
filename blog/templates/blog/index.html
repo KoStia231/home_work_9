@@ -5,7 +5,7 @@
         <h1 class="display-4">Наш блог</h1>
         <p class="lead">Тут мы пишем интересные статьи</p>
         <a href="{% url 'blog:create' %}" class="btn btn-primary">Написать статью</a>
-        {% if blog.can_edit_publications %}
+        {% if perms.blog.can_edit_publications %}
             <a href="{% url 'blog:moderator' %}" class="btn btn-primary">Снятые с публикации статьи</a>
         {% endif %}
     </div>
