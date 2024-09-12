@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from blog.apps import BlogConfig
-from django.urls import path
 from blog.views import (
     BlogIndexView, BlogDetailView, BlogCreateView,
     BlogUpdateView, BlogDeleteView, ModeratorView

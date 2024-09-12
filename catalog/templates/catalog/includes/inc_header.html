@@ -3,9 +3,9 @@
         <p>Skystore</p>
     </blockquote>
     {% if request.user.is_authenticated %}
-    <figcaption class="blockquote-footer">
-        Активная учетная запись: <cite title="Source Title">{{ request.user.first_name }}</cite>
-    </figcaption>
+        <figcaption class="blockquote-footer">
+            Активная учетная запись: <cite title="Source Title">{{ request.user.first_name }}</cite>
+        </figcaption>
     {% endif %}
 </figure>
 <nav class="ms-5">

@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from users.models import User
 
 from catalog.forms import CustomFormMixin
+from users.models import User
 
 
 class UserRegisterForm(CustomFormMixin, UserCreationForm):

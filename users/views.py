@@ -1,18 +1,19 @@
+import random
+import secrets
+import string
+
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView
-import secrets
-import random
-import string
 
-from users.forms import UserLoginForm
 from catalog.models import Product
 from catalog.views import MyBaseFooter, MyLoginRequiredMixin
+from config.settings import EMAIL_HOST_USER
+from users.forms import UserLoginForm
 from users.forms import UserRegisterForm, UserProfileUpdateForm
 from users.models import User
-from config.settings import EMAIL_HOST_USER
 
 
 class UserLoginView(MyBaseFooter, LoginView):
@@ -107,5 +108,6 @@ class UserProfileView(MyBaseFooter, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_products'] = Product.objects.filter(autor=self.object, publications=True)  # получить продукты пользователя
+        context['user_products'] = Product.objects.filter(autor=self.object,
+                                                          publications=True)  # получить продукты пользователя
         return context

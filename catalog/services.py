@@ -18,4 +18,3 @@ def get_cache_method_all(key: str, models: object) -> list[object]:
     else:
         objects = models.objects.all()
     return objects
-

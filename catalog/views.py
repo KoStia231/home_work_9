@@ -8,15 +8,14 @@ from django.views.generic import (
     UpdateView
 )
 
+from catalog.forms import (
+    CategoryForm, ProductForm,
+    VersionForm, ProductModeratorForm
+)
 from catalog.models import (
     Product, Category,
     People, Contacts,
     Version
-)
-
-from catalog.forms import (
-    CategoryForm, ProductForm,
-    VersionForm, ProductModeratorForm
 )
 from catalog.services import get_cache_method_all
 

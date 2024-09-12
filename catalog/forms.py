@@ -1,5 +1,4 @@
 from django import forms
-import re
 
 from catalog.models import Product, Category, Version
 

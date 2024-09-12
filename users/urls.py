@@ -1,15 +1,14 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
 from django.contrib.auth.views import LogoutView
+from django.urls import path
 from django.views.decorators.cache import cache_page
 
+from users.apps import UsersConfig
 from users.views import (
     UserLoginView, UserRegisterView, UserProfileUpdateView,
     UserProfileView, verify_mail, reset_password
 )
-
-from users.apps import UsersConfig
 
 app_name = UsersConfig.name
 

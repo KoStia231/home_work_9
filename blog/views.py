@@ -1,22 +1,21 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-
 from django.urls import reverse_lazy, reverse
-from pytils.translit import slugify
-
-from blog.forms import (
-    BlogEntryForm, BlogEntryModeratorForm
-)
-from catalog.views import (
-    MyBaseFooter, MyLoginRequiredMixin
-)
 from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView,
     DeleteView
 )
+from pytils.translit import slugify
+
+from blog.forms import (
+    BlogEntryForm, BlogEntryModeratorForm
+)
 from blog.models import BlogEntry
+from catalog.views import (
+    MyBaseFooter, MyLoginRequiredMixin
+)
 
 
 class BlogIndexView(MyBaseFooter, ListView):

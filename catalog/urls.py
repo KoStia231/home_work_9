@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
+from catalog.apps import CatalogConfig
 from catalog.views import (
     IndexView, ModeratorView, ContactsView, ProductDetailView,
     CategoryDetailView, ProductUpdateView, ProductDeleteView,
@@ -10,7 +11,6 @@ from catalog.views import (
     CategoryCreateView, VersionCreateView, VersionUpdateView,
     VersionDeleteView
 )
-from catalog.apps import CatalogConfig
 
 app_name = CatalogConfig.name
 
