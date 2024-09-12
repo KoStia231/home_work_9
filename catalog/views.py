@@ -79,7 +79,7 @@ class VersionCreateView(MyLoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class VersionUpdateView(MyLoginRequiredMixin, Version, UpdateView):
+class VersionUpdateView(MyLoginRequiredMixin, UpdateView):
     """Страничка редактирования версии продукта"""
     model = Version
     form_class = VersionForm
