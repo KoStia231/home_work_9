@@ -14,11 +14,11 @@ from blog.forms import (
 )
 from blog.models import BlogEntry
 from catalog.views import (
-    MyBaseFooter, MyLoginRequiredMixin
+    MyLoginRequiredMixin
 )
 
 
-class BlogIndexView(MyBaseFooter, ListView):
+class BlogIndexView(ListView):
     """Отображение главной страницы блога"""
     model = BlogEntry
     template_name = 'blog/index.html'
@@ -29,7 +29,7 @@ class BlogIndexView(MyBaseFooter, ListView):
         return queryset
 
 
-class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, MyBaseFooter, ListView):
+class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, ListView):
     """Отображение главной страницы блога"""
     permission_required = 'blog.can_edit_publications'
     model = BlogEntry
@@ -41,7 +41,7 @@ class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, MyBaseFooter,
         return queryset
 
 
-class BlogDetailView(MyBaseFooter, DetailView):
+class BlogDetailView(DetailView):
     """Отображение одной записи блога"""
     model = BlogEntry
     slug_field = 'slug'
@@ -54,7 +54,7 @@ class BlogDetailView(MyBaseFooter, DetailView):
         return self.object
 
 
-class BlogCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
+class BlogCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка с созданием записи блога"""
     model = BlogEntry
     form_class = BlogEntryForm
@@ -70,7 +70,7 @@ class BlogCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
         return super().form_valid(form)
 
 
-class BlogUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
+class BlogUpdateView(MyLoginRequiredMixin, UpdateView):
     """Старничка с редактированием блога """
     model = BlogEntry
 
@@ -97,7 +97,7 @@ class BlogUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
         raise PermissionDenied("У вас нет прав на редактирование этого прод")
 
 
-class BlogDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
+class BlogDeleteView(MyLoginRequiredMixin, DeleteView):
     """Страничка с удалением блога"""
     model = BlogEntry
     success_url = reverse_lazy('blog:index')

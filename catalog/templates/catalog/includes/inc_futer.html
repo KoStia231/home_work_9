@@ -6,7 +6,7 @@
     <div class="col-6 col-md">
         <h5>Категории</h5>
         <ul class="list-unstyled text-small">
-            {% for category in category_list %}
+            {% for category in footer_info_category %}
                 <li><a class="text-muted" href="{% url 'catalog:category_detail' category.pk %}">{{ category.name }}</a>
                 </li>
             {% endfor %}

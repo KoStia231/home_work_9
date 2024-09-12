@@ -9,21 +9,21 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView
 
 from catalog.models import Product
-from catalog.views import MyBaseFooter, MyLoginRequiredMixin
+from catalog.views import MyLoginRequiredMixin
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserLoginForm
 from users.forms import UserRegisterForm, UserProfileUpdateForm
 from users.models import User
 
 
-class UserLoginView(MyBaseFooter, LoginView):
+class UserLoginView(LoginView):
     """Страничка входа"""
     template_name = 'users/login.html'
     form_class = UserLoginForm
     redirect_authenticated_user = True  # авторизовать пользователя при успешном входе
 
 
-class UserRegisterView(MyBaseFooter, CreateView):
+class UserRegisterView(CreateView):
     """Страничка регистрации нового пользователя"""
     model = User
     form_class = UserRegisterForm
@@ -81,7 +81,7 @@ def reset_password(request):
     return render(request, template_name='users/reset_password.html')
 
 
-class UserProfileUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
+class UserProfileUpdateView(MyLoginRequiredMixin, UpdateView):
     """Страничка редактирования профиля пользователя"""
     model = User
     form_class = UserProfileUpdateForm
@@ -101,7 +101,7 @@ class UserProfileUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
         return super().form_valid(form)
 
 
-class UserProfileView(MyBaseFooter, DetailView):
+class UserProfileView(DetailView):
     """Страничка просмотра профиля пользователя"""
     model = User
     template_name = 'users/profile.html'

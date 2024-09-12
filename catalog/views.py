@@ -17,7 +17,6 @@ from catalog.models import (
     People, Contacts,
     Version
 )
-from catalog.services import get_cache_method_all
 
 
 # Create your views here.
@@ -29,19 +28,7 @@ class MyLoginRequiredMixin(LoginRequiredMixin):
     redirect_field_name = "redirect_to"
 
 
-class MyBaseFooter:
-    """Класс для выноса переопределения функции чтобы в футере была инфа динамически
-       не придумал как по другому это сделать класс сам по себе ничего не делает
-       просто существует для наследования чтобы пере-определить этот метод у других классов"""
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        # Список категорий в нижней части сайта он кешируется через сервисную функцию
-        context_data['category_list'] = get_cache_method_all(key=f'category_list', models=Category)
-        return context_data
-
-
-class ContactsView(MyBaseFooter, CreateView):
+class ContactsView(CreateView):
     """Отображение странички контактов и
     формы сбора контактов от пользователя с последующим сохранением в бд"""
     model = People
@@ -53,7 +40,7 @@ class ContactsView(MyBaseFooter, CreateView):
         return Contacts.objects.all()
 
 
-class IndexView(MyBaseFooter, ListView):
+class IndexView(ListView):
     """Главная каталога"""
     model = Product
     template_name = 'catalog/index.html'
@@ -64,7 +51,7 @@ class IndexView(MyBaseFooter, ListView):
         return queryset
 
 
-class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, MyBaseFooter, ListView):
+class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, ListView):
     """Главная каталога"""
     permission_required = 'catalog.can_edit_description'
     model = Product
@@ -76,7 +63,7 @@ class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, MyBaseFooter,
         return queryset
 
 
-class VersionCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
+class VersionCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка создания новой версии продукта"""
     model = Version
     form_class = VersionForm
@@ -92,7 +79,7 @@ class VersionCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
         return super().form_valid(form)
 
 
-class VersionUpdateView(MyLoginRequiredMixin, MyBaseFooter, Version, UpdateView):
+class VersionUpdateView(MyLoginRequiredMixin, Version, UpdateView):
     """Страничка редактирования версии продукта"""
     model = Version
     form_class = VersionForm
@@ -108,7 +95,7 @@ class VersionUpdateView(MyLoginRequiredMixin, MyBaseFooter, Version, UpdateView)
         return super().form_valid(form)
 
 
-class VersionDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
+class VersionDeleteView(MyLoginRequiredMixin, DeleteView):
     """Страничка удаления версии продукта"""
     model = Version
     success_url = reverse_lazy('catalog:index')
@@ -123,7 +110,7 @@ class VersionDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
         return obj
 
 
-class ProductDetailView(MyBaseFooter, DetailView):
+class ProductDetailView(DetailView):
     """Отображение одного продукта"""
     model = Product
 
@@ -134,7 +121,7 @@ class ProductDetailView(MyBaseFooter, DetailView):
         return context
 
 
-class ProductCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
+class ProductCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка создания нового продукта"""
     model = Product
     form_class = ProductForm
@@ -150,7 +137,7 @@ class ProductCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
+class ProductUpdateView(MyLoginRequiredMixin, UpdateView):
     """Страничка редактирования продукта"""
     model = Product
     success_url = reverse_lazy('catalog:detail')
@@ -171,7 +158,7 @@ class ProductUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
         raise PermissionDenied("У вас нет прав на редактирование этого продукта")
 
 
-class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
+class ProductDeleteView(MyLoginRequiredMixin, DeleteView):
     """Страничка удаления продукта"""
     model = Product
     success_url = reverse_lazy('catalog:index')
@@ -186,7 +173,7 @@ class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
         return obj
 
 
-class CategoryDetailView(MyBaseFooter, DetailView):
+class CategoryDetailView(DetailView):
     """Одна категория со всеми товарами"""
     model = Category
 
@@ -197,7 +184,7 @@ class CategoryDetailView(MyBaseFooter, DetailView):
         return context
 
 
-class CategoryCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
+class CategoryCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка создания новой категории"""
     model = Category
     form_class = CategoryForm
@@ -213,7 +200,7 @@ class CategoryCreateView(MyLoginRequiredMixin, MyBaseFooter, CreateView):
         return super().form_valid(form)
 
 
-class CategoryUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
+class CategoryUpdateView(MyLoginRequiredMixin, UpdateView):
     """Страничка редактирования категории"""
     model = Category
     form_class = CategoryForm
@@ -224,7 +211,7 @@ class CategoryUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
         return reverse('catalog:category_detail', args=[self.object.pk])
 
 
-class CategoryDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
+class CategoryDeleteView(MyLoginRequiredMixin, DeleteView):
     """Страничка удаления категории"""
     model = Category
     success_url = reverse_lazy('catalog:index')
