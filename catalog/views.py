@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
@@ -20,7 +19,6 @@ from catalog.forms import (
     VersionForm, ProductModeratorForm
 )
 from catalog.services import get_cache_method_all
-from config.settings import CACHES_ENABLED
 
 
 # Create your views here.

@@ -25,13 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG')
+DEBUG = os.getenv('DJANGO_DEBUG', False).lower() == 'true'
 
 ALLOWED_HOSTS = list(os.getenv('DJANGO_ALLOWED_HOSTS'))
 
-
 # сервер для кеша
-CACHES_ENABLED = os.getenv('DJANGO_CACHES_ENABLED')
+CACHES_ENABLED = os.getenv('DJANGO_CACHES_ENABLED', False).lower() == 'true'
 if CACHES_ENABLED:
     CACHES = {
         "default": {
@@ -39,7 +38,6 @@ if CACHES_ENABLED:
             "LOCATION": os.getenv('DJANGO_CACHES_LOCATION'),
         }
     }
-
 
 # Application definition
 
