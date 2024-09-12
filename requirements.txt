@@ -16,6 +16,7 @@ pure_eval==0.2.3
 Pygments==2.18.0
 python-dotenv==1.0.1
 pytils==0.4.1
+redis==5.0.8
 six==1.16.0
 sqlparse==0.5.0
 stack-data==0.6.3

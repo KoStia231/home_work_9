@@ -1,14 +1,23 @@
 # Учебный интернет магазин
 
-### Для настройки базы данных и почтового сервиса нужно создать файл .env
+### Для настроек проекта нужно использовать переменные окружения или .env
 
 ```
+DJANGO_SECRET_KEY='your_secret_key'
+DJANGO_DEBUG=True/False
+DJANGO_ALLOWED_HOSTS=*/your_host
 DB_NAME=name
 DB_USER=user
+DB_HOST=your_host
+DB_PORT=your_port
 DB_PASSWORD=password
 EMAIL_HOST_USER=your@yandex.ru
 EMAIL_HOST_PASSWORD=password
+DJANGO_CACHES_ENABLED=True/False
+DJANGO_CACHES_LOCATION=your_location
 ```
+###### Пример DJANGO_SECRET_KEY
+###### django-insecure-g#ggggg1(%gg&gggg*g1g9g*l1-1@@gggg^!ggg3ggg^!-1g*
 
 ### Установить все зависимости 
 ```python

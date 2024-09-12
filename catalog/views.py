@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
@@ -18,6 +19,8 @@ from catalog.forms import (
     CategoryForm, ProductForm,
     VersionForm, ProductModeratorForm
 )
+from catalog.services import get_cache_method_all
+from config.settings import CACHES_ENABLED
 
 
 # Create your views here.
@@ -35,9 +38,10 @@ class MyBaseFooter:
        просто существует для наследования чтобы пере-определить этот метод у других классов"""
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['category_list'] = Category.objects.all()
-        return context
+        context_data = super().get_context_data(**kwargs)
+        # Список категорий в нижней части сайта он кешируется через сервисную функцию
+        context_data['category_list'] = get_cache_method_all(key=f'category_list', models=Category)
+        return context_data
 
 
 class ContactsView(MyBaseFooter, CreateView):
@@ -167,7 +171,7 @@ class ProductUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
 
         if user.has_perm('catalog.can_edit_description'):
             return ProductModeratorForm
-        raise PermissionDenied("У вас нет прав на редактирование этого прод")
+        raise PermissionDenied("У вас нет прав на редактирование этого продукта")
 
 
 class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
@@ -181,7 +185,7 @@ class ProductDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
         obj = super().get_object(queryset)
 
         if obj.autor != self.request.user:
-            raise Http404("У вас нет прав на удаление этой продукта.")
+            raise Http404("У вас нет прав на удаление этого продукта.")
         return obj
 
 
@@ -221,7 +225,6 @@ class CategoryUpdateView(MyLoginRequiredMixin, MyBaseFooter, UpdateView):
 
     def get_success_url(self):
         return reverse('catalog:category_detail', args=[self.object.pk])
-
 
 
 class CategoryDeleteView(MyLoginRequiredMixin, MyBaseFooter, DeleteView):
