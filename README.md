@@ -34,8 +34,11 @@ python3 manage.py migrate
 
 ### Создать админа
 ```python
-python3 manage.py admin_reg 
+python3 manage.py admin_reg
 ```
+###### Файл для создания админа находится по пути
+###### users/management/commands/admin_reg.py
+
 
 ### Наполнить бд товарами
 ``` python
