@@ -86,7 +86,7 @@ class VersionCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка создания новой версии продукта"""
     model = Version
     form_class = VersionForm
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:version_list')
     template_name = 'catalog/object_form.html'
 
     def get_form_kwargs(self):
@@ -102,6 +102,10 @@ class VersionCreateView(MyLoginRequiredMixin, CreateView):
         version.autor = self.request.user
         version.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        """Перенаправление на страницу со списком версий после создания новой версии"""
+        return reverse('catalog:version_list', args=[self.object.product.pk])
 
 
 class VersionUpdateView(MyLoginRequiredMixin, UpdateView):
@@ -156,7 +160,6 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
         context['version'] = Version.objects.filter(product=product, is_active=True).last()
-        context['version_all'] = Version.objects.filter(product=product)
         return context
 
 

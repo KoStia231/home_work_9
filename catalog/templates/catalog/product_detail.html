@@ -58,15 +58,9 @@
                             Назад к категории
                         </a>
                         {% if product.autor == request.user %}
-                            <a href="{% url 'catalog:create_version' %}?product_pk={{ product.pk }}"
-                               class="btn btn-outline-primary">
-                                Создать версию продукта
+                            <a href="{% url 'catalog:version_list' product.pk %}" class="btn btn-outline-primary">
+                                Управлять версиями
                             </a>
-                            {% if version_all %}
-                                <a href="{% url 'catalog:version_list' product.pk %}" class="btn btn-outline-primary">
-                                    Список версий
-                                </a>
-                            {% endif %}
                         {% endif %}
 
                     </div>

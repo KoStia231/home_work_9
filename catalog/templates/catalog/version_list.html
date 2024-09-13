@@ -33,6 +33,10 @@
                            class="btn btn-outline-primary">
                             Назад
                         </a>
+                        <a href="{% url 'catalog:create_version' %}?product_pk={{ product.pk }}"
+                           class="btn btn-outline-primary">
+                            Создать версию продукта
+                        </a>
                     </div>
                 </div>
             </div>
