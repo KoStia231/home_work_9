@@ -3,7 +3,7 @@
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">{{ category.name }}</h1>
         <p class="lead">Описание: {{ category.description }}</p>
-
+        <a href="{% url 'catalog:create' %}?category_pk={{ category.pk }}" class="btn btn-primary">Новый продукт</a>
         <p class="lead">Автор:
             <a href="{% url 'users:profile' category.autor.pk %}">
                 <span class="badge bg-primary">

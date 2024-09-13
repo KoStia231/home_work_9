@@ -1,0 +1,41 @@
+{% extends 'catalog/base.html' %}
+{% load my_media %}
+{% block content %}
+    {% if product.autor == request.user %}
+        <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h1 class="display-4">Список версий продукта {{ product.name }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">В карточку товара выводится последняя созданная активная версия</p>
+                        <p class="lead">Из карточки товара редактирование происходит только активной версии</p>
+                        {% for version in version_list %}
+                            <p class="lead">Номер: {{ version.version_number }}, Название: {{ version.name }},
+                                {% if version.is_active %}
+                                    <span class="badge bg-success">активна</span>
+                                {% else %}
+                                    <span class="badge bg-danger">не активна</span>
+                                {% endif %}
+                                <a href="{% url 'catalog:update_version' version.pk %}" style="color:white">
+                                    <span class="badge bg-primary m-2">редактировать</span>
+                                </a>
+                                <a href="{% url 'catalog:delete_version' version.pk %}">
+                                    <span class="badge bg-danger ">удалить</span>
+                                </a>
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'catalog:detail'  product.pk %}"
+                           class="btn btn-outline-primary">
+                            Назад
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

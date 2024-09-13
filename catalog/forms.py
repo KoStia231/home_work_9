@@ -76,3 +76,6 @@ class VersionForm(CustomFormMixin, MyCleanForm, forms.ModelForm):
     class Meta:
         model = Version
         exclude = ('autor',)
+        widgets = {
+            'product': forms.HiddenInput(),
+        }

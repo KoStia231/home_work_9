@@ -63,6 +63,25 @@ class ModeratorView(MyLoginRequiredMixin, PermissionRequiredMixin, ListView):
         return queryset
 
 
+class VersionlistView(MyLoginRequiredMixin, DetailView):
+    """Страница со списком версий продукта"""
+    model = Product
+    template_name = 'catalog/version_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        context['version_list'] = Version.objects.filter(product=product)
+        return context
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        # Проверка, что пользователь является автором версии
+        if obj.autor != self.request.user:
+            raise Http404("Вы не являетесь автором этой версии продукта")
+        return obj
+
+
 class VersionCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка создания новой версии продукта"""
     model = Version
@@ -70,12 +89,18 @@ class VersionCreateView(MyLoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:index')
     template_name = 'catalog/object_form.html'
 
+    def get_form_kwargs(self):
+        """Чтобы закрепить версию к продукту в форме"""
+        kwargs = super().get_form_kwargs()
+        product_pk = self.request.GET.get('product_pk')
+        kwargs['initial'] = {'product': product_pk}
+        return kwargs
+
     def form_valid(self, form):
         """Сохранение версии с автором"""
         version = form.save(commit=False)
         version.autor = self.request.user
         version.save()
-
         return super().form_valid(form)
 
 
@@ -83,7 +108,7 @@ class VersionUpdateView(MyLoginRequiredMixin, UpdateView):
     """Страничка редактирования версии продукта"""
     model = Version
     form_class = VersionForm
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:version_list')
     template_name = 'catalog/object_form.html'
 
     def form_valid(self, form):
@@ -91,23 +116,36 @@ class VersionUpdateView(MyLoginRequiredMixin, UpdateView):
         version = form.save(commit=False)
         version.autor = self.request.user
         version.save()
-
         return super().form_valid(form)
+
+    def get_success_url(self):
+        """Перенаправление на страницу со списком версий после редактирования версии"""
+        return reverse('catalog:version_list', args=[self.object.product.pk])
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        # Проверка, что пользователь является автором версии
+        if obj.autor != self.request.user:
+            raise Http404("Вы не являетесь автором этой версии продукта")
+        return obj
 
 
 class VersionDeleteView(MyLoginRequiredMixin, DeleteView):
     """Страничка удаления версии продукта"""
     model = Version
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:version_list')
     template_name = 'catalog/object_confirm_delete.html'
 
     def get_object(self, queryset=None):
-        """Проверка, что удаляемая версия создана текущем пользователем"""
         obj = super().get_object(queryset)
-
+        # Проверка, что пользователь является автором версии
         if obj.autor != self.request.user:
-            raise Http404("У вас нет прав на удаление этой версии.")
+            raise Http404("Вы не являетесь автором этой версии продукта")
         return obj
+
+    def get_success_url(self):
+        """Перенаправление на страницу продукта после удаления версии"""
+        return reverse('catalog:version_list', args=[self.object.product.pk])
 
 
 class ProductDetailView(DetailView):
@@ -117,7 +155,8 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
-        context['version'] = Version.objects.filter(product=product, is_active=True).first()
+        context['version'] = Version.objects.filter(product=product, is_active=True).last()
+        context['version_all'] = Version.objects.filter(product=product)
         return context
 
 
@@ -125,7 +164,7 @@ class ProductCreateView(MyLoginRequiredMixin, CreateView):
     """Страничка создания нового продукта"""
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:category_detail')
     template_name = 'catalog/object_form.html'
 
     def form_valid(self, form):
@@ -135,6 +174,16 @@ class ProductCreateView(MyLoginRequiredMixin, CreateView):
         product.save()
 
         return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        category_pk = self.request.GET.get('category_pk')
+        kwargs['initial'] = {'category': category_pk}
+        return kwargs
+
+    def get_success_url(self):
+        """Перенаправление на страницу категории после создания продукта"""
+        return reverse('catalog:category_detail', args=[self.object.category.pk])
 
 
 class ProductUpdateView(MyLoginRequiredMixin, UpdateView):
@@ -161,7 +210,7 @@ class ProductUpdateView(MyLoginRequiredMixin, UpdateView):
 class ProductDeleteView(MyLoginRequiredMixin, DeleteView):
     """Страничка удаления продукта"""
     model = Product
-    success_url = reverse_lazy('catalog:index')
+    success_url = reverse_lazy('catalog:category_detail')
     template_name = 'catalog/object_confirm_delete.html'
 
     def get_object(self, queryset=None):
@@ -171,6 +220,10 @@ class ProductDeleteView(MyLoginRequiredMixin, DeleteView):
         if obj.autor != self.request.user:
             raise Http404("У вас нет прав на удаление этого продукта.")
         return obj
+
+    def get_success_url(self):
+        """Перенаправление на страницу категории после создания продукта"""
+        return reverse('catalog:category_detail', args=[self.object.category.pk])
 
 
 class CategoryDetailView(DetailView):
@@ -209,6 +262,13 @@ class CategoryUpdateView(MyLoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('catalog:category_detail', args=[self.object.pk])
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        # Проверка, что пользователь является автором версии
+        if obj.autor != self.request.user:
+            raise Http404("Вы не являетесь автором этой категории")
+        return obj
 
 
 class CategoryDeleteView(MyLoginRequiredMixin, DeleteView):

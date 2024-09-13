@@ -9,7 +9,7 @@ from catalog.views import (
     CategoryDetailView, ProductUpdateView, ProductDeleteView,
     ProductCreateView, CategoryUpdateView, CategoryDeleteView,
     CategoryCreateView, VersionCreateView, VersionUpdateView,
-    VersionDeleteView
+    VersionDeleteView, VersionlistView
 )
 
 app_name = CatalogConfig.name
@@ -17,11 +17,13 @@ app_name = CatalogConfig.name
 urlpatterns = [
                   path('', IndexView.as_view(), name='index'),
                   path('product-not-publications/', ModeratorView.as_view(), name='moderator'),
-                  path('product/<int:pk>/', cache_page(300)(ProductDetailView.as_view()), name='detail'),
+                  path('product/<int:pk>/', (ProductDetailView.as_view()), name='detail'),
                   path('product/update/<int:pk>/', ProductUpdateView.as_view(), name='update'),
                   path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='delete'),
                   path('product/create/', ProductCreateView.as_view(), name='create'),
 
+                  path('product/version/list/<int:pk>', cache_page(300)(VersionlistView.as_view()),
+                       name='version_list'),
                   path('product/version/create/', VersionCreateView.as_view(), name='create_version'),
                   path('product/version/update/<int:pk>/', VersionUpdateView.as_view(), name='update_version'),
                   path('product/version/delete/<int:pk>/', VersionDeleteView.as_view(), name='delete_version'),

@@ -20,11 +20,12 @@
                                 </span>
                             </a>
                         </p>
-                        {% if version %}
-                            <p class="lead">Версия: {{ version.name }}</p>
-                        {% else %}
-                            <p class="lead">Первая версия</p>
+
+                        {% if version.is_active == True %}
+                            <p class="lead">Версия номер: {{ version.version_number }}</p>
+                            <p class="lead">Название версии: {{ version.name }}</p>
                         {% endif %}
+
                         <p class="lead">Цена: <span class="text-success">{{ product.price }} Руб</span></p>
                         <p class="lead">Создан: {{ product.created_at|date:"d M Y H:i" }}</p>
                         <p class="lead">Обновлен: {{ product.updated_at|date:"d M Y H:i" }}</p>
@@ -40,29 +41,37 @@
                             <a href="{% url 'catalog:update' product.pk %}" class="btn btn-outline-primary">
                                 Редактировать продукт
                             </a>
+
                         {% endif %}
                         {% if product.autor == request.user %}
+
                             <a href="{% url 'catalog:delete' product.pk %}" class="btn btn-outline-danger">
                                 Удалить продукт
                             </a>
+                        {% endif %}
 
-                            </div>
-                            <div class="card-footer">
-                            <a href="{% url 'catalog:create_version' %}" class="btn btn-outline-primary">
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="{% url 'catalog:category_detail'  product.category.pk %}"
+                           class="btn btn-outline-primary">
+                            Назад к категории
+                        </a>
+                        {% if product.autor == request.user %}
+                            <a href="{% url 'catalog:create_version' %}?product_pk={{ product.pk }}"
+                               class="btn btn-outline-primary">
                                 Создать версию продукта
                             </a>
-                            {% if version %}
-                                <a href="{% url 'catalog:update_version' version.pk %}" class="btn btn-outline-primary">
-                                    Редактировать версию
-                                </a>
-                                <a href="{% url 'catalog:delete_version' version.pk %}" class="btn btn-outline-danger">
-                                    удалить версию версию
+                            {% if version_all %}
+                                <a href="{% url 'catalog:version_list' product.pk %}" class="btn btn-outline-primary">
+                                    Список версий
                                 </a>
                             {% endif %}
                         {% endif %}
 
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}
