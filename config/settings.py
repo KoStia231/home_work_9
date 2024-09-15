@@ -124,6 +124,11 @@ EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+# Если не нужно отправлять сообщения на почту
+EMAIL_CONSOLE = os.getenv('EMAIL_CONSOLE', False).lower() == 'true'
+if EMAIL_CONSOLE:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
